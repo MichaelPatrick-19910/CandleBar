@@ -49,40 +49,19 @@ export default {
         this.csv = []
         this.chartData = []
         this.$refs.realtimeChart.refresh()
-        console.log(this.series)
     },
     async csvJSON(event) {
           const file = event.target.files.item(0)
            const csv = await file.text();
             console.log(file.name)
             this.fileName = file.name
-            // var lines = csv.split('\n')
-
-            // var result = []
-
-            // var headers = lines[0].split(',')
-
-            // for (var i = 1; i < lines.length; i++) {
-            //     var obj = {}
-            //     var currentline = lines[i].split(',')
-
-            //     for (var j = 0; j < headers.length; j++) {
-            //         obj[headers[j]] = currentline[j]
-            //     }
-
-            //     result.push(obj)
-            // }
-            // console.log('data', result[0].split(';'))
             const lines = csv.split('\n') // 1️
-            // console.log(lines)
             const header = lines[0].split(',') // 2️
-            // console.log(header)
             const output = lines.slice(1).map(line => {
             const fields = line.split(',') // 3️
             return Object.fromEntries(header.map((h, i) => [h, fields[i]])) // 4
             })
             const data = []
-            // console.log(JSON.stringify(output).replaceAll('\\r','').split(':'))
             for (let i = 0; i < output.length; i++){
               const a = JSON.parse(JSON.stringify(output[i]).replaceAll('\\r', ''))
               data.push(a['Date;Open;High;Low;Close'].split(';'))
@@ -95,20 +74,6 @@ export default {
         this.$refs.realtimeChart.refresh()
         },
     getData () {
-      // this.clearData().then(() => {
-      //   const datas = this.csv
-      //   console.log(datas)
-      //   for (let i = 0; i < datas.length; i++) {
-      //     const a = datas[i][0].split('/')
-      //       this.chartData.push({
-      //           x: new Date(a[2], a[1]-1, a[0]), y: [datas[i][1], datas[i][2], datas[i][3], datas[i][4]]
-      //       })
-      //   }
-      //   this.$refs.realtimeChart.updateSeries(this.chartData, true)
-      //   this.series[0].data = this.chartData
-      //   console.log(this.test)
-      //   console.log(this.series)
-      // })
         const datas = this.csv
         console.log(datas)
         for (let i = 0; i < datas.length; i++) {
@@ -117,16 +82,8 @@ export default {
                 x: new Date(a[2], a[1]-1, a[0]), y: [datas[i][1], datas[i][2], datas[i][3], datas[i][4]]
             })
         }
-        // this.$refs.realtimeChart.updateSeries(this.chartData, true)
         this.series[0].data = this.chartData
         this.$refs.realtimeChart.refresh()
-        console.log(this.test)
-        console.log(this.series)
-        // datas.forEach(a => {
-        //     this.chartData.push({
-        //         x: new Date(a.Date), y: [a.Open, a.High, a.Low, a.Close]
-        //     })
-        // })
     }
   },
   watch: {
