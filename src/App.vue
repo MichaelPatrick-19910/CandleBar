@@ -6,7 +6,6 @@
 
 <script>
 import candleBar1 from './components/candleBar1.vue'
-
 export default {
   name: 'App',
   components: {
